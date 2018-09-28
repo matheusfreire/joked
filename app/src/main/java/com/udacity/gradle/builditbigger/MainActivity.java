@@ -1,5 +1,6 @@
 package com.udacity.gradle.builditbigger;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -10,14 +11,19 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.msf.jokelibrary.JokeTextActivity;
+import com.udacity.gradle.builditbigger.task.JokeTask;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements JokeTask.OnJokeUpdateListener{
 
     @BindView(R.id.progress_main)
     ProgressBar mProgress;
+
+    private JokeTask jokeTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +53,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        Toast.makeText(this, "derp", Toast.LENGTH_SHORT).show();
         mProgress.setVisibility(View.VISIBLE);
+        getJokeFromApi();
+    }
+
+    private void getJokeFromApi() {
+        if(jokeTask != null){
+            jokeTask.cancel(true);
+        }
+        jokeTask = new JokeTask(mProgress,this);
+        jokeTask.execute("JOKER");
     }
 
 
+    @Override
+    public void jokeListener(String joke) {
+        Intent i = new Intent(MainActivity.this, JokeTextActivity.class);
+        i.putExtra(Intent.EXTRA_TEXT, joke);
+        startActivity(i);
+    }
 }

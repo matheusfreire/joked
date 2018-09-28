@@ -48,24 +48,24 @@ android {
 }
 
 def androidSupport = '26.1.0'
-def lombok = '1.18.0'
 def butterKnife = '8.8.1'
 def espresso = '2.2.2'
-
+def googleClient = '1.23.0'
 
 dependencies {
-    implementation project(path: ':jokeapi')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(path: ':jokeapi')
+    implementation project(path: ':jokelibrary')
     endpointsServer project(path: ':backend', configuration: 'endpoints')
+
     implementation "com.android.support:appcompat-v7:${androidSupport}"
-    freeImplementation 'com.google.android.gms:play-services-ads:11.8.0'
-    implementation 'com.google.api-client:google-api-client:1.23.0'
-    implementation 'com.google.http-client:google-http-client-android:1.23.0'
+    implementation "com.google.api-client:google-api-client:${googleClient}"
+    implementation "com.google.http-client:google-http-client-android:${googleClient}"
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
-    compileOnly "org.projectlombok:lombok:${lombok}"
-    annotationProcessor "org.projectlombok:lombok:${lombok}"
     implementation "com.jakewharton:butterknife:${butterKnife}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${butterKnife}"
+
+    freeImplementation 'com.google.android.gms:play-services-ads:11.8.0'
 
     androidTestImplementation("com.android.support.test.espresso:espresso-core:${espresso}", {
         exclude group: 'com.android.support', module: 'support-annotations'
