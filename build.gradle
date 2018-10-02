@@ -21,21 +21,14 @@ allprojects {
     }
 }
 
-task startServer {
-    description "Starting server"
-    shouldRunAfter tasks.getByPath(":backend:appengineStop")
+task startServer(description:"Starting server") {
     dependsOn = [tasks.getByPath(':backend:appengineStart')]
 }
 
 task testApp{
-    dependsOn = [startServer,':app:test',':app:deviceCheck', ':app:connectedAndroidTest' ]
-}
-
-task afterTest{
-    mustRunAfter testApp
-    dependsOn tasks.getByPath(':backend:appengineStop')
+    dependsOn = [startServer,':app:test',':app:deviceCheck', ':app:connectedAndroidTest']
 }
 
 task doItAll(description:"Start server, test app and put down server"){
-    dependsOn testApp
+    dependsOn = [testApp,tasks.getByPath(':backend:appengineStop')]
 }
