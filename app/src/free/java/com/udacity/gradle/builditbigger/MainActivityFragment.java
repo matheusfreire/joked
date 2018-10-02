@@ -12,8 +12,6 @@ import com.google.android.gms.ads.AdView;
 
 public class MainActivityFragment extends Fragment {
 
-    com.google.android.gms.ads.AdView mAdView;
-
     public MainActivityFragment() {
     }
 
@@ -21,7 +19,8 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
-        ButterKnife.bind(getActivity(), root);
+
+        AdView mAdView = root.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
